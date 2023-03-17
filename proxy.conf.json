@@ -1,0 +1,10 @@
+{
+  "/api": {
+    "target": "http://127.0.0.1:4523/m1/2213202-0-default/",
+    "secure": false
+  },
+  "/dict": {
+    "target": "http://192.168.3.6:8888/",
+    "secure": false
+  }
+}

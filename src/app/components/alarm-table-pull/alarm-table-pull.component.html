@@ -1,0 +1,43 @@
+<div><button (click)="showAllFields()">Show All Field</button></div>
+<div class="mat-elevation-z6">
+  <table mat-table class="full-width-table" aria-label="Elements" matSort>
+    <ng-container *ngFor="let col of colDef" [matColumnDef]="col.name">
+      <ng-template *ngIf="col?.sortable else sortable">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{col.displayName||col.name}}</th>
+      </ng-template>
+      <ng-template #sortable>
+        <th mat-header-cell *matHeaderCellDef>{{col.displayName||col.name}}</th>
+      </ng-template>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{col.displayName||col.name}}</th>
+      <td mat-cell *matCellDef="let element" 
+        [ngStyle]="{'background-color':getBkColor(element)}"
+        [ngClass]="{'row-is-clicked':selectedRows.has(element)}"
+        (contextmenu)="onContextMenu($event,element)">
+        <div *ngIf="col['cellTemplate'] else defaultContext" [innerHTML]="col['cellTemplate']"></div> 
+        <!-- <div *ngIf="col['cellTemplate'] else defaultContext"><div [title]="element[col.name]||''"><i class="fa-regular fa-comment"></i></div></div> -->
+        <ng-template #defaultContext>{{element[col.name]}}</ng-template>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="colToDisplay"></tr>
+    <tr mat-row *matRowDef="let row; columns: colToDisplay" (click)="rowClicked(row)"></tr>
+  </table>
+  <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="2"
+    [pageSizeOptions]="[2, 5, 10, 20]" aria-label="Select page">
+  </mat-paginator>
+
+  <ul>slection:
+    <li *ngFor="let clickedRow of selectedRows">
+      {{clickedRow|json}}
+    </li>
+  </ul>
+
+  <div style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x"
+    [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">
+  </div>
+  <mat-menu #contextMenu="matMenu" xPosition="after" yPosition="below">
+    <button mat-menu-item (click)="onMenuClick('Option 1')">Option 1</button>
+    <button mat-menu-item (click)="onMenuClick('Option 2')">Option 2</button>
+    <button mat-menu-item (click)="onMenuClick('Option 3')">Option 3</button>
+  </mat-menu>
+</div>
