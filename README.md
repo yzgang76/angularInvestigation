@@ -1206,7 +1206,7 @@ connect(): Observable<Alarm[]> {
 }
  ```
 
-### Mange the display columns
+### Manage the display columns
 It able to manage the display columns in the row template
 
 Add new property in the AlarmField interface ```display?:boolean```
